@@ -73,7 +73,7 @@ class PfSenseClient:
 
     def get_interfaces(self) -> dict[str, Any]:
         """List all network interfaces."""
-        return self._get("/interface")
+        return self._get("/interfaces")
 
     # --- Firewall ---
 
@@ -93,35 +93,35 @@ class PfSenseClient:
 
     def get_dhcp_leases(self) -> dict[str, Any]:
         """List active DHCP leases."""
-        return self._get("/status/dhcp_leases")
+        return self._get("/status/dhcp_server/leases")
 
     def get_dhcp_static_mappings(self, interface: str | None = None) -> dict[str, Any]:
         """List DHCP static mappings."""
         if interface:
-            return self._get("/services/dhcpd/static_mapping", interface=interface)
-        return self._get("/services/dhcpd/static_mapping")
+            return self._get("/services/dhcp_server/static_mappings", interface=interface)
+        return self._get("/services/dhcp_server/static_mappings")
 
     def create_dhcp_static_mapping(self, **params: Any) -> dict[str, Any]:
         """Create a DHCP static mapping."""
-        return self._post("/services/dhcpd/static_mapping", **params)
+        return self._post("/services/dhcp_server/static_mapping", **params)
 
     def delete_dhcp_static_mapping(self, mapping_id: int) -> dict[str, Any]:
         """Delete a DHCP static mapping."""
-        return self._delete("/services/dhcpd/static_mapping", id=mapping_id)
+        return self._delete("/services/dhcp_server/static_mapping", id=mapping_id)
 
     # --- DNS ---
 
     def get_dns_host_overrides(self) -> dict[str, Any]:
         """List DNS Resolver host overrides."""
-        return self._get("/services/unbound/host_override")
+        return self._get("/services/dns_resolver/host_overrides")
 
     def create_dns_host_override(self, **params: Any) -> dict[str, Any]:
         """Create a DNS host override."""
-        return self._post("/services/unbound/host_override", **params)
+        return self._post("/services/dns_resolver/host_override", **params)
 
     def delete_dns_host_override(self, override_id: int) -> dict[str, Any]:
         """Delete a DNS host override."""
-        return self._delete("/services/unbound/host_override", id=override_id)
+        return self._delete("/services/dns_resolver/host_override", id=override_id)
 
     # --- Gateways ---
 
